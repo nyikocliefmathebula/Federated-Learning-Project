@@ -1,0 +1,40 @@
+cicids2017: comparing downloads/CICIDS2017_improved.zip with data/raw/cicids2017_improved ...
+cicids2017: 5 of 5 files identical to the archive; 0 different, 0 missing, 0 extra; archive SHA-256 97fdb91d339e2d8cf5627f981b831e5e7e400b981c58181c451a38fd03c48883
+ciciot2023: comparing downloads/CSV.zip with data/raw/ciciot2023 ...
+  checking Backdoor_Malware/
+  checking Benign_Final/
+  checking BrowserHijacking/
+  checking CommandInjection/
+  checking DDoS-ACK_Fragmentation/
+  checking DDoS-HTTP_Flood/
+  checking DDoS-ICMP_Flood/
+  checking DDoS-ICMP_Fragmentation/
+  checking DDoS-PSHACK_FLOOD/
+  checking DDoS-RSTFINFLOOD/
+  checking DDoS-SYN_Flood/
+  checking DDoS-SlowLoris/
+  checking DDoS-SynonymousIP_Flood/
+  checking DDoS-TCP_Flood/
+  checking DDoS-UDP_Flood/
+  checking DDoS-UDP_Fragmentation/
+  checking DNS_Spoofing/
+  checking DictionaryBruteForce/
+  checking DoS-HTTP_Flood/
+  checking DoS-SYN_Flood/
+  checking DoS-TCP_Flood/
+  checking DoS-UDP_Flood/
+  checking MITM-ArpSpoofing/
+  checking Mirai-greeth_flood/
+  checking Mirai-greip_flood/
+  checking Mirai-udpplain/
+  checking Recon-HostDiscovery/
+  checking Recon-OSScan/
+  checking Recon-PingSweep/
+  checking Recon-PortScan/
+  checking SqlInjection/
+  checking Uploading_Attack/
+  checking VulnerabilityScan/
+  checking XSS/
+ciciot2023: 310 of 310 files identical to the archive; 0 different, 0 missing, 0 extra; archive SHA-256 e211e878d2f39226ea3a854683f91ae6175b628807ee96eeecb7a04a36a28dbd
+Recorded in docs/datasets/archive_check.json
+ARCHIVES_OK

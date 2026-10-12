@@ -1,0 +1,26 @@
+seed 13 alpha 100: min train 6553, mean classes 8.00, mean JSD 0.001, mean entropy 0.677, CV 0.06, moved 0
+seed 13 alpha 10: min train 4386, mean classes 8.00, mean JSD 0.011, mean entropy 0.670, CV 0.16, moved 0
+seed 13 alpha 1: min train 2146, mean classes 7.98, mean JSD 0.105, mean entropy 0.612, CV 0.51, moved 0
+seed 13 alpha 0.5: min train 512, mean classes 7.73, mean JSD 0.185, mean entropy 0.564, CV 0.82, moved 65
+seed 13 alpha 0.1: min train 512, mean classes 4.54, mean JSD 0.507, mean entropy 0.269, CV 1.53, moved 5505
+seed 42 alpha 100: min train 6273, mean classes 8.00, mean JSD 0.001, mean entropy 0.677, CV 0.06, moved 0
+seed 42 alpha 10: min train 4450, mean classes 8.00, mean JSD 0.013, mean entropy 0.671, CV 0.18, moved 0
+seed 42 alpha 1: min train 1156, mean classes 8.00, mean JSD 0.126, mean entropy 0.620, CV 0.64, moved 0
+seed 42 alpha 0.5: min train 610, mean classes 7.72, mean JSD 0.188, mean entropy 0.546, CV 0.67, moved 0
+seed 42 alpha 0.1: min train 512, mean classes 4.53, mean JSD 0.500, mean entropy 0.331, CV 1.72, moved 6470
+seed 271 alpha 100: min train 6542, mean classes 8.00, mean JSD 0.001, mean entropy 0.677, CV 0.05, moved 0
+seed 271 alpha 10: min train 4994, mean classes 8.00, mean JSD 0.013, mean entropy 0.671, CV 0.18, moved 0
+seed 271 alpha 1: min train 1320, mean classes 7.97, mean JSD 0.122, mean entropy 0.614, CV 0.65, moved 0
+seed 271 alpha 0.5: min train 512, mean classes 7.69, mean JSD 0.185, mean entropy 0.549, CV 0.72, moved 26
+seed 271 alpha 0.1: min train 512, mean classes 4.81, mean JSD 0.458, mean entropy 0.319, CV 1.55, moved 4965
+seed 1618 alpha 100: min train 6256, mean classes 8.00, mean JSD 0.001, mean entropy 0.677, CV 0.06, moved 0
+seed 1618 alpha 10: min train 4870, mean classes 8.00, mean JSD 0.012, mean entropy 0.674, CV 0.18, moved 0
+seed 1618 alpha 1: min train 1031, mean classes 7.97, mean JSD 0.118, mean entropy 0.618, CV 0.61, moved 0
+seed 1618 alpha 0.5: min train 913, mean classes 7.71, mean JSD 0.191, mean entropy 0.552, CV 0.72, moved 0
+seed 1618 alpha 0.1: min train 512, mean classes 4.59, mean JSD 0.468, mean entropy 0.310, CV 1.54, moved 2473
+seed 3141 alpha 100: min train 6402, mean classes 8.00, mean JSD 0.001, mean entropy 0.677, CV 0.06, moved 0
+seed 3141 alpha 10: min train 4572, mean classes 8.00, mean JSD 0.012, mean entropy 0.674, CV 0.19, moved 0
+seed 3141 alpha 1: min train 2250, mean classes 7.93, mean JSD 0.112, mean entropy 0.612, CV 0.58, moved 0
+seed 3141 alpha 0.5: min train 671, mean classes 7.68, mean JSD 0.201, mean entropy 0.549, CV 0.86, moved 0
+seed 3141 alpha 0.1: min train 512, mean classes 4.45, mean JSD 0.518, mean entropy 0.275, CV 1.63, moved 5501
+PARTITION_OK

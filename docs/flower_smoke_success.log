@@ -1,0 +1,63 @@
+Using SuperLink: local (127.0.0.1:39091)
+[92mINFO [0m:      Printing logstream for run_id `2219497735169571392`
+[92mINFO [0m:      Starting Flower Simulation
+[93mWARNING [0m:   Since flwr 1.32, default simulated SuperNodes changed from 10 to 2.
+[92mINFO [0m:      Federation `@none/default` (2 simulated SuperNodes)
+[92mINFO [0m:      To change federation size, use the following command:
+[92mINFO [0m:      	flwr federation simulation-config @none/default <superlink> --num-supernodes <N>
+Successfully installed nyiko-flower-smoke to /home/ubuntu/.flwr/apps/nyiko.nyiko-flower-smoke.0.1.0.8cd742eb.
+[93mWARNING [0m:   fraction_evaluate is set to 0.0. Federated evaluation will be skipped.
+[92mINFO [0m:      Starting CheckedFedAvg strategy:
+[92mINFO [0m:      	├── Number of rounds: 2
+[92mINFO [0m:      	├── ArrayRecord (0.00 MB)
+[92mINFO [0m:      	├── ConfigRecord (train): (empty!)
+[92mINFO [0m:      	├── ConfigRecord (evaluate): (empty!)
+[92mINFO [0m:      	├──> Sampling:
+[92mINFO [0m:      	│	├──Fraction: train (1.00) | evaluate ( 0.00)
+[92mINFO [0m:      	│	├──Minimum nodes: train (2) | evaluate (0)
+[92mINFO [0m:      	│	└──Minimum available nodes: 2
+[92mINFO [0m:      	└──> Keys in records:
+[92mINFO [0m:      		├── Weighted by: 'num-examples'
+[92mINFO [0m:      		├── ArrayRecord key: 'arrays'
+[92mINFO [0m:      		└── ConfigRecord key: 'config'
+[92mINFO [0m:      
+[92mINFO [0m:      Initial global evaluation results: {'loss': 0.9995253086090088, 'accuracy': 0.375}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1/2]
+[92mINFO [0m:      configure_train: Sampled 2 nodes (out of 2)
+/mnt/c/Users/Nyiko/fl-iot-ids/.venv/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[92mINFO [0m:      aggregate_train: Received 2 results and 0 failures
+[92mINFO [0m:      	└──> Aggregated MetricRecord: {'loss': 1.042708420753479}
+[92mINFO [0m:      Global evaluation
+[92mINFO [0m:      	└──> MetricRecord: {'loss': 0.9818264245986938, 'accuracy': 0.390625}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 2/2]
+[92mINFO [0m:      configure_train: Sampled 2 nodes (out of 2)
+[92mINFO [0m:      aggregate_train: Received 2 results and 0 failures
+[92mINFO [0m:      	└──> Aggregated MetricRecord: {'loss': 1.0204488754272463}
+[92mINFO [0m:      Global evaluation
+[92mINFO [0m:      	└──> MetricRecord: {'loss': 0.9645818471908569, 'accuracy': 0.40625}
+[92mINFO [0m:      
+[92mINFO [0m:      Strategy execution finished in 135.63s
+[92mINFO [0m:      
+[92mINFO [0m:      Final results:
+[92mINFO [0m:      
+[92mINFO [0m:      	Global Arrays:
+[92mINFO [0m:      		ArrayRecord (0.000 MB)
+[92mINFO [0m:      	
+[92mINFO [0m:      	Aggregated ClientApp-side Train Metrics:
+[92mINFO [0m:      	{1: {'loss': '1.0427e+00'}, 2: {'loss': '1.0204e+00'}}
+[92mINFO [0m:      	
+[92mINFO [0m:      	Aggregated ClientApp-side Evaluate Metrics:
+[92mINFO [0m:      	{}
+[92mINFO [0m:      	
+[92mINFO [0m:      	ServerApp-side Evaluate Metrics:
+[92mINFO [0m:      	{ 0: {'accuracy': '3.7500e-01', 'loss': '9.9953e-01'},
+[92mINFO [0m:      	  1: {'accuracy': '3.9062e-01', 'loss': '9.8183e-01'},
+[92mINFO [0m:      	  2: {'accuracy': '4.0625e-01', 'loss': '9.6458e-01'}}
+[92mINFO [0m:      
+FLOWER_SMOKE_OK: two synthetic training rounds completed.
+[36m(ClientAppActor pid=47250)[0m [93mWARNING [0m:   Manually terminating ClientAppActor
+[92mINFO [0m:      
+

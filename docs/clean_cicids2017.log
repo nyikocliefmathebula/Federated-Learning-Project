@@ -1,0 +1,32 @@
+5 source files; checking headers, endings and checksums ...
+WARNING: checksums differ from docs/datasets/cicids2017_sha256.txt: mismatch: []; not in reference: ['cicids2017_improved/monday.csv', 'cicids2017_improved/tuesday.csv', 'cicids2017_improved/wednesday.csv', 'cicids2017_improved/thursday.csv', 'cicids2017_improved/friday.csv']
+read    371,624 rows  cicids2017_improved/monday.csv
+read    322,078 rows  cicids2017_improved/tuesday.csv
+read    496,641 rows  cicids2017_improved/wednesday.csv
+read    362,076 rows  cicids2017_improved/thursday.csv
+read    547,557 rows  cicids2017_improved/friday.csv
+{
+  "rows_read": 2099976,
+  "rows_removed": 385782,
+  "rows_kept": 1714194,
+  "removed_by_step": {
+    "truncated_final_line": 0,
+    "malformed_row": 0,
+    "attempted": 0,
+    "excluded_rare_class": 47,
+    "invalid_value": 5,
+    "negative_value": 585,
+    "label_conflict": 2678,
+    "exact_duplicate": 382467
+  },
+  "kept_by_class": {
+    "Benign": 1431948,
+    "DoS": 171634,
+    "DDoS": 95144,
+    "PortScan": 7695,
+    "BruteForce": 6933,
+    "WebAttack": 104,
+    "Botnet": 736
+  }
+}
+CLEANING_OK

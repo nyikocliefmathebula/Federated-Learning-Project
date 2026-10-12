@@ -1,0 +1,149 @@
+PASS  last cleaning run completed (no cleaning_error.json)
+PASS  cleaning rows balance  (2099976 = 385782 + 1714194)
+PASS  audit final counts equal kept rows
+PASS  arrays hold every kept record
+PASS  class codes valid
+PASS  all features finite
+PASS  feature order matches manifest
+PASS  at least one seed folder
+PASS  seed13: every record once
+PASS  seed13: validation has every class
+PASS  seed13: test has every class
+PASS  seed13: no Flow ID group crosses portions
+PASS  seed13: scaler fitted on training rows only
+PASS  seed13: preprocessing feature order
+PASS  seed13: initial state checksum
+PASS  seed13: schedule reproducible
+PASS  seed13/alpha0.1: partition covers train/val/test exactly
+PASS  seed13/alpha0.1: train minimum per gateway  (min 512 >= 512)
+PASS  seed13/alpha0.1: validation minimum per gateway  (min 74 >= 74)
+PASS  seed13/alpha0.1: test minimum per gateway  (min 147 >= 147)
+PASS  seed13/alpha0.5: partition covers train/val/test exactly
+PASS  seed13/alpha0.5: train minimum per gateway  (min 512 >= 512)
+PASS  seed13/alpha0.5: validation minimum per gateway  (min 74 >= 74)
+PASS  seed13/alpha0.5: test minimum per gateway  (min 147 >= 147)
+PASS  seed13/alpha1: partition covers train/val/test exactly
+PASS  seed13/alpha1: train minimum per gateway  (min 979 >= 512)
+PASS  seed13/alpha1: validation minimum per gateway  (min 139 >= 74)
+PASS  seed13/alpha1: test minimum per gateway  (min 294 >= 147)
+PASS  seed13/alpha10: partition covers train/val/test exactly
+PASS  seed13/alpha10: train minimum per gateway  (min 5572 >= 512)
+PASS  seed13/alpha10: validation minimum per gateway  (min 794 >= 74)
+PASS  seed13/alpha10: test minimum per gateway  (min 1586 >= 147)
+PASS  seed13/alpha100: partition covers train/val/test exactly
+PASS  seed13/alpha100: train minimum per gateway  (min 8530 >= 512)
+PASS  seed13/alpha100: validation minimum per gateway  (min 1179 >= 74)
+PASS  seed13/alpha100: test minimum per gateway  (min 2509 >= 147)
+PASS  seed1618: every record once
+PASS  seed1618: validation has every class
+PASS  seed1618: test has every class
+PASS  seed1618: no Flow ID group crosses portions
+PASS  seed1618: scaler fitted on training rows only
+PASS  seed1618: preprocessing feature order
+PASS  seed1618: initial state checksum
+PASS  seed1618: schedule reproducible
+PASS  seed1618/alpha0.1: partition covers train/val/test exactly
+PASS  seed1618/alpha0.1: train minimum per gateway  (min 512 >= 512)
+PASS  seed1618/alpha0.1: validation minimum per gateway  (min 74 >= 74)
+PASS  seed1618/alpha0.1: test minimum per gateway  (min 147 >= 147)
+PASS  seed1618/alpha0.5: partition covers train/val/test exactly
+PASS  seed1618/alpha0.5: train minimum per gateway  (min 512 >= 512)
+PASS  seed1618/alpha0.5: validation minimum per gateway  (min 74 >= 74)
+PASS  seed1618/alpha0.5: test minimum per gateway  (min 147 >= 147)
+PASS  seed1618/alpha1: partition covers train/val/test exactly
+PASS  seed1618/alpha1: train minimum per gateway  (min 512 >= 512)
+PASS  seed1618/alpha1: validation minimum per gateway  (min 74 >= 74)
+PASS  seed1618/alpha1: test minimum per gateway  (min 147 >= 147)
+PASS  seed1618/alpha10: partition covers train/val/test exactly
+PASS  seed1618/alpha10: train minimum per gateway  (min 6163 >= 512)
+PASS  seed1618/alpha10: validation minimum per gateway  (min 913 >= 74)
+PASS  seed1618/alpha10: test minimum per gateway  (min 1686 >= 147)
+PASS  seed1618/alpha100: partition covers train/val/test exactly
+PASS  seed1618/alpha100: train minimum per gateway  (min 9603 >= 512)
+PASS  seed1618/alpha100: validation minimum per gateway  (min 1354 >= 74)
+PASS  seed1618/alpha100: test minimum per gateway  (min 2790 >= 147)
+PASS  seed271: every record once
+PASS  seed271: validation has every class
+PASS  seed271: test has every class
+PASS  seed271: no Flow ID group crosses portions
+PASS  seed271: scaler fitted on training rows only
+PASS  seed271: preprocessing feature order
+PASS  seed271: initial state checksum
+PASS  seed271: schedule reproducible
+PASS  seed271/alpha0.1: partition covers train/val/test exactly
+PASS  seed271/alpha0.1: train minimum per gateway  (min 512 >= 512)
+PASS  seed271/alpha0.1: validation minimum per gateway  (min 74 >= 74)
+PASS  seed271/alpha0.1: test minimum per gateway  (min 147 >= 147)
+PASS  seed271/alpha0.5: partition covers train/val/test exactly
+PASS  seed271/alpha0.5: train minimum per gateway  (min 512 >= 512)
+PASS  seed271/alpha0.5: validation minimum per gateway  (min 74 >= 74)
+PASS  seed271/alpha0.5: test minimum per gateway  (min 147 >= 147)
+PASS  seed271/alpha1: partition covers train/val/test exactly
+PASS  seed271/alpha1: train minimum per gateway  (min 751 >= 512)
+PASS  seed271/alpha1: validation minimum per gateway  (min 100 >= 74)
+PASS  seed271/alpha1: test minimum per gateway  (min 224 >= 147)
+PASS  seed271/alpha10: partition covers train/val/test exactly
+PASS  seed271/alpha10: train minimum per gateway  (min 5443 >= 512)
+PASS  seed271/alpha10: validation minimum per gateway  (min 758 >= 74)
+PASS  seed271/alpha10: test minimum per gateway  (min 1585 >= 147)
+PASS  seed271/alpha100: partition covers train/val/test exactly
+PASS  seed271/alpha100: train minimum per gateway  (min 9147 >= 512)
+PASS  seed271/alpha100: validation minimum per gateway  (min 1279 >= 74)
+PASS  seed271/alpha100: test minimum per gateway  (min 2560 >= 147)
+PASS  seed3141: every record once
+PASS  seed3141: validation has every class
+PASS  seed3141: test has every class
+PASS  seed3141: no Flow ID group crosses portions
+PASS  seed3141: scaler fitted on training rows only
+PASS  seed3141: preprocessing feature order
+PASS  seed3141: initial state checksum
+PASS  seed3141: schedule reproducible
+PASS  seed3141/alpha0.1: partition covers train/val/test exactly
+PASS  seed3141/alpha0.1: train minimum per gateway  (min 512 >= 512)
+PASS  seed3141/alpha0.1: validation minimum per gateway  (min 74 >= 74)
+PASS  seed3141/alpha0.1: test minimum per gateway  (min 147 >= 147)
+PASS  seed3141/alpha0.5: partition covers train/val/test exactly
+PASS  seed3141/alpha0.5: train minimum per gateway  (min 512 >= 512)
+PASS  seed3141/alpha0.5: validation minimum per gateway  (min 74 >= 74)
+PASS  seed3141/alpha0.5: test minimum per gateway  (min 147 >= 147)
+PASS  seed3141/alpha1: partition covers train/val/test exactly
+PASS  seed3141/alpha1: train minimum per gateway  (min 968 >= 512)
+PASS  seed3141/alpha1: validation minimum per gateway  (min 136 >= 74)
+PASS  seed3141/alpha1: test minimum per gateway  (min 243 >= 147)
+PASS  seed3141/alpha10: partition covers train/val/test exactly
+PASS  seed3141/alpha10: train minimum per gateway  (min 5204 >= 512)
+PASS  seed3141/alpha10: validation minimum per gateway  (min 722 >= 74)
+PASS  seed3141/alpha10: test minimum per gateway  (min 1493 >= 147)
+PASS  seed3141/alpha100: partition covers train/val/test exactly
+PASS  seed3141/alpha100: train minimum per gateway  (min 9034 >= 512)
+PASS  seed3141/alpha100: validation minimum per gateway  (min 1314 >= 74)
+PASS  seed3141/alpha100: test minimum per gateway  (min 2671 >= 147)
+PASS  seed42: every record once
+PASS  seed42: validation has every class
+PASS  seed42: test has every class
+PASS  seed42: no Flow ID group crosses portions
+PASS  seed42: scaler fitted on training rows only
+PASS  seed42: preprocessing feature order
+PASS  seed42: initial state checksum
+PASS  seed42: schedule reproducible
+PASS  seed42/alpha0.1: partition covers train/val/test exactly
+PASS  seed42/alpha0.1: train minimum per gateway  (min 512 >= 512)
+PASS  seed42/alpha0.1: validation minimum per gateway  (min 74 >= 74)
+PASS  seed42/alpha0.1: test minimum per gateway  (min 147 >= 147)
+PASS  seed42/alpha0.5: partition covers train/val/test exactly
+PASS  seed42/alpha0.5: train minimum per gateway  (min 793 >= 512)
+PASS  seed42/alpha0.5: validation minimum per gateway  (min 120 >= 74)
+PASS  seed42/alpha0.5: test minimum per gateway  (min 218 >= 147)
+PASS  seed42/alpha1: partition covers train/val/test exactly
+PASS  seed42/alpha1: train minimum per gateway  (min 967 >= 512)
+PASS  seed42/alpha1: validation minimum per gateway  (min 122 >= 74)
+PASS  seed42/alpha1: test minimum per gateway  (min 251 >= 147)
+PASS  seed42/alpha10: partition covers train/val/test exactly
+PASS  seed42/alpha10: train minimum per gateway  (min 6088 >= 512)
+PASS  seed42/alpha10: validation minimum per gateway  (min 843 >= 74)
+PASS  seed42/alpha10: test minimum per gateway  (min 1598 >= 147)
+PASS  seed42/alpha100: partition covers train/val/test exactly
+PASS  seed42/alpha100: train minimum per gateway  (min 9428 >= 512)
+PASS  seed42/alpha100: validation minimum per gateway  (min 1313 >= 74)
+PASS  seed42/alpha100: test minimum per gateway  (min 2665 >= 147)
+DATA_CHECK_OK

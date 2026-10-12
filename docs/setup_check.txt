@@ -1,0 +1,18 @@
+{
+  "operating_system": "Windows-11-10.0.26200-SP0",
+  "architecture": "AMD64",
+  "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+  "physical_cores": 8,
+  "logical_cores": 16,
+  "usable_ram_gib": 19.69,
+  "free_drive_gib": 360.13,
+  "python": "3.14.8",
+  "numpy": "2.5.3",
+  "pandas": "3.0.6",
+  "scikit_learn": "1.9.1",
+  "pyarrow": "25.0.1",
+  "pytorch": "2.14.1+cpu",
+  "torch_threads": 4,
+  "cuda_available": false
+}
+A training step completed successfully.

@@ -1,0 +1,29 @@
+{
+  "operating_system": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_executable": "/mnt/c/Users/Nyiko/fl-iot-ids/.venv/bin/python",
+  "python_version": "3.12.3",
+  "architecture": "x86_64",
+  "logical_cpus_visible": 16,
+  "ram_visible_gib": 9.56,
+  "free_project_drive_gib": 349.19,
+  "torch_threads": 4,
+  "cuda_available": false,
+  "package_versions": {
+    "flwr": "1.39.0",
+    "ray": "2.55.1",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "pyarrow": "25.0.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "pyyaml": "6.0.3",
+    "pytest": "9.1.1",
+    "tqdm": "4.70.1",
+    "psutil": "7.2.2"
+  },
+  "synthetic_training_step": "passed"
+}
+ENVIRONMENT_CHECK_OK
