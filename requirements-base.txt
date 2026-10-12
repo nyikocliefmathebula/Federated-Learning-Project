@@ -1,0 +1,12 @@
+flwr[simulation]==1.39.0
+numpy
+pandas
+scipy
+scikit-learn
+pyarrow
+matplotlib
+seaborn
+pyyaml
+pytest
+tqdm
+psutil
