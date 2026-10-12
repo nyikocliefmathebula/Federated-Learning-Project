@@ -1,0 +1,73 @@
+# fl-iot-ids: Federated Learning-Based Intrusion Detection for Distributed IoT Networks
+# Nyiko Mathebula, EEE4022S final-year project, University of Cape Town, 2026
+
+# Project file of the Flower app "fliids" (the federated FedAvg and FedProx runs).
+# `flwr run flower-ids ...` reads this file to find the code and the settings.
+
+# How the folder is packaged when it is installed (pip install -e flower-ids).
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Name, version and the Python packages this app needs.
+[project]
+name = "fliids"
+version = "0.8.0"
+description = "Federated IoT intrusion detection: FedAvg and FedProx research app."
+requires-python = ">=3.12,<3.13"
+dependencies = ["flwr[simulation]==1.39.0", "torch", "numpy", "pandas", "pyarrow"]
+
+# The Python package inside this folder: flower-ids/fliids/
+[tool.hatch.build.targets.wheel]
+packages = ["fliids"]
+
+[tool.flwr.app]
+publisher = "nyiko"
+
+# Where Flower finds the two halves of the app:
+#   serverapp = the object "app" in fliids/server_app.py (the server that runs the rounds)
+#   clientapp = the object "app" in fliids/client_app.py (one gateway's local training)
+[tool.flwr.app.components]
+serverapp = "fliids.server_app:app"
+clientapp = "fliids.client_app:app"
+
+# Main settings (report Tables 4.2 and 4.3). Override per run with --run-config.
+# Example: flwr run flower-ids --stream --run-config "method='fedprox' alpha=0.1"
+# src/run_grid.py passes dataset, method, seed and alpha this way for each run.
+[tool.flwr.app.config]
+# folder that holds the prepared data (arrays, splits and partitions)
+data-root = "/mnt/c/Users/Nyiko/fl-iot-ids/data/processed"
+# results are written to <results-root>/<dataset>/<method>/seed<seed>/alpha<alpha><suffix>/
+results-root = "/mnt/c/Users/Nyiko/fl-iot-ids/results/runs"
+# "cicids2017" or "ciciot2023"
+dataset = "cicids2017"
+# "fedavg" or "fedprox"
+method = "fedavg"
+# master seed: 13, 42, 271, 1618 or 3141
+seed = 42
+# Dirichlet alpha of the gateway partition: 100, 10, 1, 0.5 or 0.1
+alpha = 1.0
+# extra text after alpha<alpha> in the partition folder name ("" for the main runs)
+partition-suffix = ""
+# K: number of simulated gateways (must match the partition)
+num-clients = 105
+# gateways trained in each round (21 of 105 = 20 %)
+clients-per-round = 21
+# largest number of rounds (early stopping can end the run sooner)
+num-server-rounds = 100
+# E: passes over its own data that each selected gateway makes per round
+local-epochs = 2
+# records per minibatch
+batch-size = 256
+# Adam settings
+learning-rate = 0.001
+weight-decay = 0.00001
+# mu: strength of the FedProx term (used only when method = "fedprox")
+proximal-mu = 0.01
+# early stopping: stop after 15 rounds without a validation improvement of at least 0.0001
+patience = 15
+min-delta = 0.0001
+# CPU threads PyTorch may use in each process (decision D11)
+torch-threads = 4
+# seconds the server waits for replies in one round before giving up
+round-timeout = 3600.0
