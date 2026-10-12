@@ -1,0 +1,32 @@
+# fl-iot-ids: Federated Learning-Based Intrusion Detection for Distributed IoT Networks
+# Nyiko Mathebula, EEE4022S final-year project, University of Cape Town, 2026
+
+# Project file of the Flower installation check (two simulated clients,
+# made-up data, two rounds). It is not an IDS experiment and uses no dataset.
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nyiko-flower-smoke"
+version = "0.1.0"
+description = "Two-client synthetic installation check; not an IDS experiment."
+requires-python = ">=3.12,<3.13"
+dependencies = ["flwr[simulation]==1.39.0", "torch"]
+
+# the Python package inside this folder: setup/flower_smoke/smoke_app/
+[tool.hatch.build.targets.wheel]
+packages = ["smoke_app"]
+
+[tool.flwr.app]
+publisher = "nyiko"
+
+# the server and client code of the check
+[tool.flwr.app.components]
+serverapp = "smoke_app.server_app:app"
+clientapp = "smoke_app.client_app:app"
+
+# the server stops with an error if this is not 2
+[tool.flwr.app.config]
+num-server-rounds = 2
