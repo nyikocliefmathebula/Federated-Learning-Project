@@ -1,0 +1,17 @@
+# Python environment and tool caches
+.venv/
+.flower/
+__pycache__/
+.pytest_cache/
+*.fab
+*.egg-info/
+
+# Datasets and everything derived from them (too large; sources in docs/datasets/MANIFEST.md)
+downloads/
+data/
+
+# Experiment outputs
+results/
+
+# Personal working notes and reading material, not part of the submission
+private/
