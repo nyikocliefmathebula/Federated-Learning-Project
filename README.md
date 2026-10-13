@@ -82,7 +82,8 @@ Setting up the environment (once, in an Ubuntu terminal, in the project folder):
 
     python3.12 -m venv .venv
     source .venv/bin/activate
-    pip install -r requirements-lock.txt
+    pip install -r requirements-lock.txt \
+        --extra-index-url https://download.pytorch.org/whl/cpu   # torch 2.14.1+cpu
     python setup/check_environment.py     # ends with ENVIRONMENT_CHECK_OK
     python setup/check_ray.py             # ends with RAY_CHECK_OK
 
