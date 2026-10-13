@@ -1,4 +1,4 @@
-# fl-iot-ids: Federated Learning-Based Intrusion Detection for Distributed IoT Networks
+# Federated Learning-Based Intrusion Detection for Distributed IoT Networks
 
 - **Author:** Nyiko Mathebula
 - **Course:** EEE4022S Final-Year Project, Department of Electrical Engineering, University of Cape Town
