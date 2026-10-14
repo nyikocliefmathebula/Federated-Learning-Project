@@ -91,6 +91,20 @@ def select_rows(root, dataset, seed, alpha, portion, client=None, suffix=""):
     return rid[mask]
 
 
+@lru_cache(maxsize=4)
+def training_class_counts(root, dataset, seed):
+    """Training records per class for one seed, all gateways together.
+
+    These counts set the class weights of the loss when class weighting is
+    switched on (decision D18; off in the grid). The partition of every alpha
+    divides exactly these records, so the counts are the same for all four
+    approaches and all alpha values of a seed.
+    """
+    _, y, meta = arrays(root, dataset)
+    rows = select_rows(root, dataset, seed, None, TRAIN)
+    return np.bincount(y[rows], minlength=len(meta["classes"]))
+
+
 def portion_clients(root, dataset, seed, alpha, portion, suffix=""):
     """Row ids of a portion and the gateway each one belongs to."""
     # used for the test portion: every test record together with its gateway,

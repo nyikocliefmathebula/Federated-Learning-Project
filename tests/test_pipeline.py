@@ -27,8 +27,8 @@ import clean_data  # noqa: E402
 from fliids.evaluation import confusion, confusion_by_client, metrics  # noqa: E402
 from fliids.models import make_model, state_sha256  # noqa: E402
 from fliids.seeds import make_schedule, rng, torch_seed  # noqa: E402
-from fliids.training import (EarlyStopping, make_optimizer, proximal_term,  # noqa: E402
-                             train_epochs)
+from fliids.training import (EarlyStopping, class_weights,  # noqa: E402
+                             make_optimizer, proximal_term, train_epochs)
 from partition_clients import assign, describe, draw, top_up  # noqa: E402
 from schema import (CICIDS2017_EXCLUDED, CICIDS2017_HEADER,  # noqa: E402
                     CICIOT2023_KNOWN_TRUNCATED, ciciot2023_base)
@@ -292,6 +292,32 @@ def test_training_counts_examples_and_steps():
     stats = train_epochs(model, torch.randn(70, 4), torch.randint(0, 2, (70,)), 2, 32,
                          make_optimizer(model), torch.Generator().manual_seed(1))
     assert stats["examples"] == 140 and stats["steps"] == 6   # 32+32+6 per epoch
+
+
+# Class weights (D18) for 900, 90 and 10 training records: power 0 means no
+# weighting; power 1 gives every class the same total weight (w_c * n_c); power
+# 0.5 makes the weights proportional to 1/sqrt(n_c). In every case the average
+# weight per record is 1. Uniform weights must train exactly like no weights.
+def test_class_weights_and_weighted_loss():
+    n = torch.tensor([900.0, 90.0, 10.0])
+    assert class_weights(n, 0) is None
+    full, half = class_weights(n, 1.0), class_weights(n, 0.5)
+    for w in (full, half):
+        assert torch.isclose((w * n).sum(), n.sum())                 # mean weight 1
+    assert torch.allclose(full * n, torch.full((3,), 1000 / 3))      # balanced totals
+    assert torch.isclose(half[2] / half[0], torch.tensor(90.0).sqrt())
+    with pytest.raises(ValueError):
+        class_weights([5, 0, 3], 0.5)
+    torch.manual_seed(0)
+    x, y = torch.randn(64, 5), torch.randint(0, 3, (64,))
+    a, b = make_model(5, 3, seed=1), make_model(5, 3, seed=1)
+    torch.manual_seed(5)
+    train_epochs(a, x, y, 1, 16, make_optimizer(a), torch.Generator().manual_seed(9))
+    torch.manual_seed(5)
+    train_epochs(b, x, y, 1, 16, make_optimizer(b), torch.Generator().manual_seed(9),
+                 class_weight=torch.ones(3))
+    for pa, pb in zip(a.parameters(), b.parameters()):
+        assert torch.allclose(pa, pb, atol=1e-6)
 
 
 # Patience 3, min-delta 0.0001: a tie is not an improvement; a gain smaller

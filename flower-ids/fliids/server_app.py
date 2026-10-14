@@ -117,13 +117,16 @@ def main(grid: Grid, context: Context):
     node_of = map_partitions(grid, n_clients, timeout)
     (out / "node_map.json").write_text(json.dumps(node_of, indent=2))
     # the schedule is recreated from the seed and checked against the
-    # schedule.json saved by split_data.py (when the sizes are the same)
+    # schedule.json saved by split_data.py (when the sizes are the same).
+    # The saved file holds 100 rounds; a longer run (200 rounds since D17) must
+    # begin with exactly those rounds, so only the rounds both lists have are compared.
     schedule = make_schedule(seed, n_clients, per_round, rounds)
     saved = seed_dir(root, dataset, seed) / "schedule.json"
     if saved.exists():
         s = json.loads(saved.read_text())
         if (s["clients"], s["clients_per_round"]) == (n_clients, per_round):
-            if s["schedule"][:rounds] != schedule:
+            n = min(len(s["schedule"]), rounds)
+            if s["schedule"][:n] != schedule[:n]:
                 raise RuntimeError("Schedule differs from the saved schedule.json")
     (out / "schedule.json").write_text(json.dumps(schedule))
 

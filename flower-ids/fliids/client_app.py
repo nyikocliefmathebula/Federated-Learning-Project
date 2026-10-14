@@ -10,10 +10,11 @@ import torch
 from flwr.app import ArrayRecord, Context, Message, MetricRecord, RecordDict
 from flwr.clientapp import ClientApp
 
-from fliids.data import TRAIN, dataset_info, load_xy, select_rows
+from fliids.data import (TRAIN, dataset_info, load_xy, select_rows,
+                         training_class_counts)
 from fliids.models import make_model
 from fliids.seeds import torch_seed
-from fliids.training import make_optimizer, train_epochs
+from fliids.training import class_weights, make_optimizer, train_epochs
 
 app = ClientApp()     # Flower finds this object through flower-ids/pyproject.toml
 
@@ -73,9 +74,16 @@ def train(message: Message, context: Context):
     generator = torch.Generator().manual_seed(
         torch_seed(seed, "minibatch", server_round, pid))
     torch.manual_seed(torch_seed(seed, "dropout", server_round, pid))
+    # class weights of the loss (decision D18). The grid uses power 0: plain
+    # cross-entropy (weight None). A power above 0 (sensitivity analysis only)
+    # gives every gateway the same weights, from the class counts of the whole
+    # training portion.
+    power = float(cfg["class-weight-power"])
+    weight = (class_weights(training_class_counts(root, dataset, seed), power)
+              if power > 0 else None)
     # local training: E = 2 epochs in minibatches of 256; mu > 0 adds the FedProx term
     stats = train_epochs(model, x, y, int(cfg["local-epochs"]), int(cfg["batch-size"]),
-                         optimizer, generator, mu=mu)
+                         optimizer, generator, mu=mu, class_weight=weight)
 
     # reply to the server: the trained weights and some numbers about the training
     reply = RecordDict({

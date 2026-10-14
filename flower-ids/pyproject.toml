@@ -53,8 +53,9 @@ partition-suffix = ""
 num-clients = 105
 # gateways trained in each round (21 of 105 = 20 %)
 clients-per-round = 21
-# largest number of rounds (early stopping can end the run sooner)
-num-server-rounds = 100
+# largest number of rounds (early stopping can end the run sooner);
+# 200 since amendment D17 of 14-15 October 2026 (was 100)
+num-server-rounds = 200
 # E: passes over its own data that each selected gateway makes per round
 local-epochs = 2
 # records per minibatch
@@ -64,8 +65,13 @@ learning-rate = 0.001
 weight-decay = 0.00001
 # mu: strength of the FedProx term (used only when method = "fedprox")
 proximal-mu = 0.01
-# early stopping: stop after 15 rounds without a validation improvement of at least 0.0001
-patience = 15
+# class weights of the loss (decision D18): 0.0 = plain cross-entropy, used for
+# every run of the grid. A value above 0 gives rare classes larger weights
+# (0.5: weight 1/sqrt(n_c); 1.0: fully balanced); only for a sensitivity analysis
+class-weight-power = 0.0
+# early stopping: stop after 25 rounds without a validation improvement of at least 0.0001
+# (25 since amendment D17 of 14-15 October 2026; was 15)
+patience = 25
 min-delta = 0.0001
 # CPU threads PyTorch may use in each process (decision D11)
 torch-threads = 4

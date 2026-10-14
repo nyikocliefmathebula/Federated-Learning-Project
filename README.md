@@ -43,7 +43,7 @@ seed.
     requirements-lock.txt  exact versions of every installed package
     src/                   data pipeline, baselines, grid runner, results summary, Figure 3.2
     flower-ids/            Flower app (FedAvg and FedProx) and the shared package fliids
-    tests/                 23 known-answer tests (python -m pytest tests -q)
+    tests/                 24 known-answer tests (python -m pytest tests -q)
     setup/                 environment checks and a two-client Flower installation check
     docs/                  logs of the pipeline steps, test output, environment records
     docs/datasets/         dataset manifest, archive check, checksums and line counts
@@ -206,13 +206,14 @@ Each run writes to `results/runs/<dataset>/<method>/seed<S>/[alpha<A>/]`
 
 ## 6. Tests
 
-    python -m pytest tests -q          # 23 passed
+    python -m pytest tests -q          # 24 passed
 
 The tests use small inputs with known answers (no dataset needed): random streams and the
 round schedule, the stratified and group-aware splits, the training subsample, preprocessing,
 the Dirichlet partition and top-up rule, the heterogeneity measures, cleaning rules, the
-archive check, the FedProx term, early stopping, the metrics, the grid plan and the results
-summary. The saved output is in `docs/tests_v8.txt`.
+archive check, the FedProx term, the class weights of the loss, early stopping, the metrics,
+the grid plan and the results summary. The saved output is in `docs/tests_v8.txt` (the first
+23 tests, 7 October) and `docs/tests_d18.txt` (all 24).
 
 ## 7. Decisions fixed for every run
 
@@ -227,13 +228,15 @@ summary. The saved output is in `docs/tests_v8.txt`.
 | D7 | 70/10/20 split stratified by source label: Flow ID groups per day for CIC-IDS2017, record level for CIC-IoT2023 (no session or device identifier). |
 | D8 | CIC-IoT2023 training portion subsampled per source label to min(n, max(ceil(0.05 n), 10,000)); validation and test are complete. |
 | D9 | K = 105 gateways with at least 512 training, 74 validation and 147 test records each, enforced by the top-up rule (redrawing cannot meet the minimum at alpha = 0.1). |
-| D10 | Adam, learning rate 0.001, weight decay 0.00001, batch 256; at most 200 epochs (baselines) or 100 rounds of 2 local epochs (FedAvg, FedProx); early stopping on validation macro-F1 with patience 15 and minimum improvement 0.0001; 21 of 105 gateways per round on a fixed schedule per seed; FedProx mu = 0.01. |
+| D10 | Adam, learning rate 0.001, weight decay 0.00001, batch 256; at most 200 epochs (baselines) or 200 rounds of 2 local epochs (FedAvg, FedProx); early stopping on validation macro-F1 with patience 25 and minimum improvement 0.0001 (both as amended by D17); 21 of 105 gateways per round on a fixed schedule per seed; FedProx mu = 0.01. |
 | D11 | One Flower client trains at a time; 4 PyTorch threads per run; baselines may run in a second process at the same time. |
 | D12 | Grid of 160 runs, CIC-IDS2017 first, after the pilot. |
 | D13 | No mid-run resume: an interrupted run is repeated from its start; client updates are aggregated in a fixed order so results repeat on the same computer. |
 | D14 | Local-only checkpoints use macro-F1 over the classes present in the gateway's validation data; the Jensen-Shannon divergence uses base-2 logarithms. |
 | D15 | Sensitivity analyses (destination port kept; attempted flows excluded) are outside the main grid. |
 | D16 | WSL memory limit of 13 GB when two CIC-IoT2023 runs run at the same time. |
+| D17 | Amendment of 14-15 October 2026, made after the first CIC-IDS2017 grid and based on its validation scores only: patience 15 -> 25 for every approach, and the FedAvg/FedProx budget 100 -> 200 rounds (the baselines already had 200 epochs). In that grid 63 of 80 runs were ended by the patience rule, and 16 of the 17 federated runs that reached round 100 had their best validation score in rounds 90-100, so they were still improving. Both datasets use the amended settings; the first grid is kept in `results/archive/` as a sensitivity analysis of the stopping rule. |
+| D18 | Class-weighted cross-entropy was tested on 15 October 2026 on the validation data of seed 42 only, and not adopted. Weights proportional to (N / (C n_c))^p with p = 0.5 or 1 lowered the validation accuracy (the primary metric) and raised the false-positive rate in most configurations, and changed the approaches unequally: local-only and, with p = 1, FedAvg's detection of WebAttack gained, while centralized training lost. Every run of the grid uses plain cross-entropy (`class-weight-power = 0.0`, `--class-weight-power 0`); the option remains for a sensitivity analysis. |
 
 ## 8. Reproducibility
 

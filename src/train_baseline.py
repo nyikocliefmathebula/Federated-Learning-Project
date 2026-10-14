@@ -38,13 +38,15 @@ import torch
 # Flower app (data loading, model, training loop, metrics)
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "flower-ids"))
 from fliids.data import (TEST, TRAIN, VAL, dataset_info, load_xy,  # noqa: E402
-                         portion_clients, seed_dir, select_rows)
+                         portion_clients, seed_dir, select_rows,
+                         training_class_counts)
 from fliids.evaluation import (confusion, confusion_by_client,  # noqa: E402
                                confusion_rows, metrics, predict, save_parquet)
 from fliids.models import load_initial_model  # noqa: E402
 from fliids.records import write_run_config  # noqa: E402
 from fliids.seeds import torch_seed  # noqa: E402
-from fliids.training import EarlyStopping, make_optimizer, train_epochs  # noqa: E402
+from fliids.training import (EarlyStopping, class_weights,  # noqa: E402
+                             make_optimizer, train_epochs)
 
 
 def fit(model, x, y, xv, yv, args, n_classes, stream_ids, select_key, verbose=False):
@@ -57,6 +59,8 @@ def fit(model, x, y, xv, yv, args, n_classes, stream_ids, select_key, verbose=Fa
     generator = torch.Generator().manual_seed(torch_seed(args.seed, "minibatch", *stream_ids))
     torch.manual_seed(torch_seed(args.seed, "dropout", *stream_ids))
     stopper = EarlyStopping(args.patience, args.min_delta)
+    # class weights of the loss (None = plain cross-entropy)
+    weight = None if args.class_weights is None else torch.tensor(args.class_weights)
     m = metrics(confusion(yv.numpy(), predict(model, xv), n_classes))
     # epoch 0 = the untrained initial model
     stopper.update(0, m[select_key], model.state_dict())
@@ -64,7 +68,8 @@ def fit(model, x, y, xv, yv, args, n_classes, stream_ids, select_key, verbose=Fa
     # train one epoch, score on validation, let early stopping decide; at most
     # 200 epochs
     for epoch in range(1, args.max_epochs + 1):
-        s = train_epochs(model, x, y, 1, args.batch_size, optimizer, generator)
+        s = train_epochs(model, x, y, 1, args.batch_size, optimizer, generator,
+                         class_weight=weight)
         m = metrics(confusion(yv.numpy(), predict(model, xv), n_classes))
         stop = stopper.update(epoch, m[select_key], model.state_dict())
         history.append((epoch, m[select_key], m["accuracy"], s["loss"],
@@ -101,14 +106,25 @@ def main():
     p.add_argument("--batch-size", type=int, default=256)
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--weight-decay", type=float, default=1e-5)
-    p.add_argument("--patience", type=int, default=15)
+    p.add_argument("--patience", type=int, default=25)       # 25 since D17 (was 15)
     p.add_argument("--min-delta", type=float, default=1e-4)
+    # class weights of the loss (decision D18): 0 = plain cross-entropy, used for
+    # every run of the grid; above 0 only for a sensitivity analysis
+    p.add_argument("--class-weight-power", type=float, default=0.0)
     p.add_argument("--threads", type=int, default=4)
     args = p.parse_args()
     torch.set_num_threads(args.threads)
     root, ds, seed = args.data_root, args.dataset, args.seed
     n_features, n_classes, classes = dataset_info(root, ds, seed)
     sdir = seed_dir(root, ds, seed)
+    # class weights of the loss (D18): None (plain cross-entropy) for power 0;
+    # otherwise one weight per class from the class counts of the whole training
+    # portion, the same as in FedAvg and FedProx. Kept as a list of numbers, so
+    # run_config.json records them.
+    args.class_weights = None
+    if args.class_weight_power > 0:
+        w = class_weights(training_class_counts(root, ds, seed), args.class_weight_power)
+        args.class_weights = w.tolist()
     started = time.time()
     rows_out, history_rows = [], []
 
