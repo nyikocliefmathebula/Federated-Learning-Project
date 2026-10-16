@@ -43,7 +43,7 @@ seed.
     requirements-lock.txt  exact versions of every installed package
     src/                   data pipeline, baselines, grid runner, results summary, Figure 3.2
     flower-ids/            Flower app (FedAvg and FedProx) and the shared package fliids
-    tests/                 24 known-answer tests (python -m pytest tests -q)
+    tests/                 25 known-answer tests (python -m pytest tests -q)
     setup/                 environment checks and a two-client Flower installation check
     docs/                  logs of the pipeline steps, test output, environment records
     docs/datasets/         dataset manifest, archive check, checksums and line counts
@@ -67,6 +67,7 @@ caches, and `private/` (personal working notes that are not part of the submissi
 | `src/train_baseline.py` | centralized and local-only training |
 | `src/run_grid.py` | runs the planned grid, one run at a time, with logs |
 | `src/collect_results.py` | one summary table of all completed runs |
+| `src/cross_gateway.py` | cross-gateway test: every local-only model on every gateway's test data |
 | `src/plot_label_skew.py` | Figure 3.2: measured label skew of the gateway partitions |
 | `flower-ids/fliids/` | shared code: data loading, model, training, metrics, seeds, run records, Flower client and server |
 | `tests/test_pipeline.py` | known-answer tests of the pipeline, training and metric code |
@@ -171,6 +172,9 @@ federated runs (decision D11).
     # progress and summary table, at any time
     python src/collect_results.py --dataset cicids2017     # COLLECT_OK
 
+    # after the local-only runs: every local model on every gateway's test data
+    python src/cross_gateway.py --dataset cicids2017       # CROSS_GATEWAY_OK
+
 CIC-IDS2017 is run first, then CIC-IoT2023. Ctrl+C stops the grid cleanly; for a federated
 run the runner also stops the run inside the SuperLink.
 
@@ -200,20 +204,23 @@ Each run writes to `results/runs/<dataset>/<method>/seed<S>/[alpha<A>/]`
 | `predictions.parquet` | C, L, F | true and predicted class of every test record |
 | `confusion_counts.parquet` | C, L, F | confusion counts per evaluation view and gateway |
 | `metrics.json` | C, L, F | test metrics, stopping point and (F) communication up to the best round |
+| `cross_gateway.parquet` | L | written by `cross_gateway.py`: model k on the test records of gateway j (accuracy, macro-F1 over the classes present, false-positive rate) for all 105 x 105 pairs |
 
 `results/runs/grid_log.csv` and `results/runs/logs/` record every attempt of the grid;
-`collect_results.py` writes `results/summary/<dataset>_runs.csv`.
+`collect_results.py` writes `results/summary/<dataset>_runs.csv` and `cross_gateway.py`
+writes `results/summary/<dataset>_cross_gateway.csv`.
 
 ## 6. Tests
 
-    python -m pytest tests -q          # 24 passed
+    python -m pytest tests -q          # 25 passed
 
 The tests use small inputs with known answers (no dataset needed): random streams and the
 round schedule, the stratified and group-aware splits, the training subsample, preprocessing,
 the Dirichlet partition and top-up rule, the heterogeneity measures, cleaning rules, the
 archive check, the FedProx term, the class weights of the loss, early stopping, the metrics,
-the grid plan and the results summary. The saved output is in `docs/tests_v8.txt` (the first
-23 tests, 7 October) and `docs/tests_d18.txt` (all 24).
+the grid plan, the results summary and the cross-gateway scores. The saved output is in
+`docs/tests_v8.txt` (the first 23 tests, 7 October), `docs/tests_d18.txt` (24) and
+`docs/tests_d19.txt` (all 25).
 
 ## 7. Decisions fixed for every run
 
@@ -237,6 +244,7 @@ the grid plan and the results summary. The saved output is in `docs/tests_v8.txt
 | D16 | WSL memory limit of 13 GB when two CIC-IoT2023 runs run at the same time. |
 | D17 | Amendment of 14-15 October 2026, made after the first CIC-IDS2017 grid and based on its validation scores only: patience 15 -> 25 for every approach, and the FedAvg/FedProx budget 100 -> 200 rounds (the baselines already had 200 epochs). In that grid 63 of 80 runs were ended by the patience rule, and 16 of the 17 federated runs that reached round 100 had their best validation score in rounds 90-100, so they were still improving. Both datasets use the amended settings; the first grid is kept in `results/archive/` as a sensitivity analysis of the stopping rule. |
 | D18 | Class-weighted cross-entropy was tested on 15 October 2026 on the validation data of seed 42 only, and not adopted. Weights proportional to (N / (C n_c))^p with p = 0.5 or 1 lowered the validation accuracy (the primary metric) and raised the false-positive rate in most configurations, and changed the approaches unequally: local-only and, with p = 1, FedAvg's detection of WebAttack gained, while centralized training lost. Every run of the grid uses plain cross-entropy (`class-weight-power = 0.0`, `--class-weight-power 0`); the option remains for a sensitivity analysis. |
+| D19 | Cross-gateway view added on 16 October 2026, after the CIC-IDS2017 grid and before CIC-IoT2023: every saved local-only model is also scored on the test data of the other 104 gateways (`src/cross_gateway.py`). It is an extra evaluation of the same models; no model or setting changed. Local-only models are compared with the shared models mainly on other gateways' data, the question a model that is reused elsewhere faces; the own-gateway (routed) view is still reported. |
 
 ## 8. Reproducibility
 

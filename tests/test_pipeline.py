@@ -34,6 +34,7 @@ from schema import (CICIDS2017_EXCLUDED, CICIDS2017_HEADER,  # noqa: E402
                     CICIOT2023_KNOWN_TRUNCATED, ciciot2023_base)
 import check_archives  # noqa: E402
 import collect_results  # noqa: E402
+import cross_gateway  # noqa: E402
 import run_grid  # noqa: E402
 from split_data import (fit_preprocessing, group_split, record_split,  # noqa: E402
                         subsample_training)
@@ -453,3 +454,21 @@ def test_collect_results_reads_each_kind_of_run(tmp_path, monkeypatch):
     fed = collect_results.rows_for("cicids2017", "fedavg", 42)
     assert [r["complete"] for r in fed] == [False, False, True, False, False]
     assert next(r for r in fed if r["complete"])["best_step"] == 9
+
+
+# Cross-gateway view: 6 test records, gateways 0 and 1 (three records each).
+# Model 0 is right on gateway 0 and on 2 of 3 records of gateway 1; model 1
+# gets one benign record of gateway 0 wrong (a false positive, FPR 1/2). The
+# summary separates own-gateway pairs (k = j) from the others.
+def test_cross_gateway_pairs_and_summary():
+    y = np.array([0, 0, 1, 0, 1, 1])
+    client = np.array([0, 0, 0, 1, 1, 1])
+    rows = cross_gateway.pair_rows(0, y, np.array([0, 0, 1, 0, 1, 0]), client, 2, 2)
+    rows += cross_gateway.pair_rows(1, y, np.array([1, 0, 1, 0, 1, 1]), client, 2, 2)
+    t = pd.DataFrame(rows).set_index(["model", "gateway"])
+    assert t.loc[(0, 0), "accuracy"] == 1.0 and t.loc[(0, 1), "accuracy"] == 2 / 3
+    assert t.loc[(1, 0), "accuracy"] == 2 / 3 and t.loc[(1, 0), "fpr"] == 0.5
+    s = cross_gateway.summarise(t.reset_index())
+    assert s["own_accuracy"] == 1.0                     # (0,0) and (1,1) are both right
+    assert s["other_accuracy"] == pytest.approx(2 / 3)  # (0,1) and (1,0)
+
