@@ -15,3 +15,6 @@ results/
 
 # Personal working notes and reading material, not part of the submission
 private/
+
+# Preview files written by the Claude desktop app
+Claude outputs/

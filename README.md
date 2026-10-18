@@ -42,6 +42,7 @@ seed.
     requirements-base.txt  packages that were installed
     requirements-lock.txt  exact versions of every installed package
     src/                   data pipeline, baselines, grid runner, results summary, Figure 3.2
+    src/report/            tables and figures of Chapter 5 and Appendix G of the report
     flower-ids/            Flower app (FedAvg and FedProx) and the shared package fliids
     tests/                 25 known-answer tests (python -m pytest tests -q)
     setup/                 environment checks and a two-client Flower installation check
@@ -69,6 +70,7 @@ caches, and `private/` (personal working notes that are not part of the submissi
 | `src/collect_results.py` | one summary table of all completed runs |
 | `src/cross_gateway.py` | cross-gateway test: every local-only model on every gateway's test data |
 | `src/plot_label_skew.py` | Figure 3.2: measured label skew of the gateway partitions |
+| `src/report/` | tables and figures of Chapter 5 and Appendix G of the report, from the saved run files (Section 9) |
 | `flower-ids/fliids/` | shared code: data loading, model, training, metrics, seeds, run records, Flower client and server |
 | `tests/test_pipeline.py` | known-answer tests of the pipeline, training and metric code |
 
@@ -256,3 +258,28 @@ the grid plan, the results summary and the cross-gateway scores. The saved outpu
 - `data_manifest.json` records the SHA-256 of `clean_data.py` at cleaning time. The code
   comments were revised after the data were processed; the processing code itself is
   unchanged, so the current file hash differs from the recorded one.
+
+## 9. Results of the report
+
+All 160 runs of the grid completed: CIC-IDS2017 on commit 54df42e and CIC-IoT2023 on d982ef8
+(`results/runs/grid_log.csv`; one interrupted attempt was repeated from its start). The
+summaries and cross-gateway scores were then written for both datasets:
+
+    python src/collect_results.py --dataset cicids2017     # COLLECT_OK
+    python src/cross_gateway.py --dataset cicids2017       # CROSS_GATEWAY_OK
+    python src/collect_results.py --dataset ciciot2023     # COLLECT_OK
+    python src/cross_gateway.py --dataset ciciot2023       # CROSS_GATEWAY_OK
+
+The tables and figures of Chapter 5 and Appendix G of the report are produced by the scripts in
+`src/report/` from the saved run folders and, for the stopping-rule sensitivity analysis (D17),
+from the first CIC-IDS2017 grid in `results/archive/runs_p15_r100/`. They are run in this order,
+write only to `results/report/` (`csv/`, `tables/`, `figures/`) and change no run, model or
+setting:
+
+    python src/report/collect.py           # summary tables of all runs
+    python src/report/paired.py            # paired differences between approaches (Eq. 3.15)
+    python src/report/stability.py         # round-to-round change of validation macro-F1
+    python src/report/tables.py            # Tables 5.1 to 5.6
+    python src/report/appendix_tables.py   # Table G1
+    python src/report/figs.py              # Figures 5.1 to 5.6
+    python src/report/extra.py             # other numbers quoted in Chapter 5
