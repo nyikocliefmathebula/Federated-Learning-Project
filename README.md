@@ -281,5 +281,16 @@ setting:
     python src/report/stability.py         # round-to-round change of validation macro-F1
     python src/report/tables.py            # Tables 5.1 to 5.6
     python src/report/appendix_tables.py   # Table G1
-    python src/report/figs.py              # Figures 5.1 to 5.6
+    python src/report/figs.py              # Figures 5.1 to 5.6 (runs the six scripts below)
+
+Each figure can also be drawn on its own (after collect.py has written the csv/ tables).
+Shared fonts, colours and legend names are in `src/report/figure_common.py`:
+
+    python src/report/fig5_1_global_test_performance.py
+    python src/report/fig5_2_per_class_recall.py
+    python src/report/fig5_3_ciciot2023_confusion_centralized.py
+    python src/report/fig5_4_fedprox_minus_fedavg.py
+    python src/report/fig5_5_gateway_level_comparison.py
+    python src/report/fig5_6_convergence_communication.py
+
     python src/report/extra.py             # other numbers quoted in Chapter 5
